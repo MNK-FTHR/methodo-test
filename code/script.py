@@ -6,9 +6,18 @@ import os.path
 from datetime import datetime
 from typing import TypedDict
 
-class Movie(TypedDict):
-    name: str
-    year: int
+class I_SerieIncrementer(TypedDict):
+    oneTrueTrueIncrement: int
+    oneTrueFalseIncrement: int
+    oneFalseTrueIncrement: int
+    oneTrueFalseIncrementEnded: bool
+    oneFalseTrueIncrementEnded: bool
+
+class I_SessionIDDatas(I_SerieIncrementer):
+    sameDayBuffer: list
+    life: int
+    incrementedToday: bool
+    lastSerieNumber: str
 
 fileToWrite="./code/EnregistrementUpdated.csv"
 fields = ["Date","Niveau","Allonge","Assis","SessionID","formattedDate","Serie"]
@@ -21,28 +30,8 @@ def dataToVariable():
         for row in reader:
             dataList.append(dict(row))
 
-def updateSerie(sessionIDDatas, item):
-    oneTrueTrueIncrement, oneTrueFalseIncrement, oneFalseTrueIncrement, oneTrueFalseIncrementEnded, oneFalseTrueIncrementEnded, sameDayBuffer, life, incrementedToday, lastSerieNumber = sessionIDDatas
-    actualLastSerieNumber = lastSerieNumber
-    item['Serie'] = lastSerieNumber
-    readableDate = datetime.fromtimestamp(int(item['Date'])).date()
-    sameDayBuffer.append(readableDate)
-    for i in range(1, len(sameDayBuffer)):
-        if (sameDayBuffer[i-1] < sameDayBuffer[i]):
-            print(abs((sameDayBuffer[i] - sameDayBuffer[i-1]).days), f"{sameDayBuffer[i-1]} -> {sameDayBuffer[i]}")                        
-            sameDayBuffer.clear()
-            sameDayBuffer.append(readableDate)
-            incrementedToday = False
-            lastSerieNumber = serieIncrementer(item,oneTrueTrueIncrement,oneTrueFalseIncrement,oneFalseTrueIncrement,oneTrueFalseIncrementEnded,oneFalseTrueIncrementEnded)
-            if (lastSerieNumber > actualLastSerieNumber):
-                print('incrementedToday')
-                incrementedToday = True
-        else:
-            if incrementedToday == False:
-                lastSerieNumber = serieIncrementer(item,oneTrueTrueIncrement,oneTrueFalseIncrement,oneFalseTrueIncrement,oneTrueFalseIncrementEnded,oneFalseTrueIncrementEnded)
-                if (lastSerieNumber > actualLastSerieNumber):
-                    incrementedToday = True
-    # 2 TRUE TRUE
+def serieIncrementer(item):
+        # 2 TRUE TRUE
     if ((item['Niveau'] == '2') and (item["Assis"]=="True") and (item['Allonge']=="True")):
         actualLastSerieNumber = str(int(item['Serie'])+1)
     # 1 TRUE TRUE
@@ -70,12 +59,37 @@ def updateSerie(sessionIDDatas, item):
                 actualLastSerieNumber = str(int(item['Serie'])+1)
         if oneFalseTrueIncrement == 0:
             oneFalseTrueIncrement +=1
+
+def updateSerie(sessionIDDatas, item):
+    oneTrueTrueIncrement, oneTrueFalseIncrement, oneFalseTrueIncrement, oneTrueFalseIncrementEnded, oneFalseTrueIncrementEnded, sameDayBuffer, life, incrementedToday, lastSerieNumber = sessionIDDatas
+     
+    print(sameDayBuffer, life, incrementedToday, lastSerieNumber)
+    actualLastSerieNumber = lastSerieNumber
+    item['Serie'] = lastSerieNumber
+    readableDate = datetime.fromtimestamp(int(item['Date'])).date()
+    sameDayBuffer.append(readableDate)
+    for i in range(1, len(sameDayBuffer)):
+        if (sameDayBuffer[i-1] < sameDayBuffer[i]):
+            print(abs((sameDayBuffer[i] - sameDayBuffer[i-1]).days), f"{sameDayBuffer[i-1]} -> {sameDayBuffer[i]}")                        
+            sameDayBuffer.clear()
+            sameDayBuffer.append(readableDate)
+            incrementedToday = False
+            lastSerieNumber = serieIncrementer(item,oneTrueTrueIncrement,oneTrueFalseIncrement,oneFalseTrueIncrement,oneTrueFalseIncrementEnded,oneFalseTrueIncrementEnded)
+            if (lastSerieNumber > actualLastSerieNumber):
+                print('incrementedToday')
+                incrementedToday = True
+        else:
+            if incrementedToday == False:
+                lastSerieNumber = serieIncrementer(item,oneTrueTrueIncrement,oneTrueFalseIncrement,oneFalseTrueIncrement,oneTrueFalseIncrementEnded,oneFalseTrueIncrementEnded)
+                if (lastSerieNumber > actualLastSerieNumber):
+                    incrementedToday = True
+
     return sessionIDDatas, actualLastSerieNumber
 
 
 def serieUpdaterBySessionID(id):
     newDataListToReturn = []
-    sessionIDDatas = {
+    sessionIDDatas: I_SessionIDDatas = {
         'oneTrueTrueIncrement': 0,
         'oneTrueFalseIncrement': 0,
         'oneFalseTrueIncrement': 0,
@@ -115,7 +129,7 @@ def mainLoop():
         with open(fileToWrite, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, quotechar='"', quoting=csv.QUOTE_ALL)
             writer.writerow(fields)
-            for lines in dataToWrite:
+            for lines in dataList:
                 writer.writerow(list(lines.values()))
     else:
         print("Il n'y a pas de fichier Enregistrement.csv à lire pour moi :(")
