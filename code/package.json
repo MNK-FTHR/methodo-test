@@ -1,0 +1,20 @@
+{
+  "name": "methodo-test",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "pkg": "pkg -t node16-linux-x64,node16-macos-x64,node16-win-x64 .",
+    "start:dev": "npx ts-node ./src/index.ts ../Enregistrement.csv",
+    "start:prod": "npm run build && npm run pkg && cd ../ && sh index.sh"
+  },
+  "bin": "dist/index.js",
+  "pkg": {
+    "scripts": [
+      "dist/**/*.js"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10"
+  }
+}
