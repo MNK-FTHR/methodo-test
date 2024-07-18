@@ -29,15 +29,31 @@ export function transformObjectUP(input: T_UserRecord): T_ParsedUserRecord {
   };
 }
 
-export const transformUserRecordUP = (
-  input: T_UserRecord[]
-): T_ParsedUserRecord[] => {
-  const result = [];
-  for (let index = 0; index < input.length; index++) {
-    const element = transformObjectUP(input[index]);
-    element !== undefined && result.push(element);
+export const transformUserRecordUP = (data: string): T_ParsedUserRecord[] => {
+  const lines = data.split("\n");
+  const headers = lines[0].split(",");
+
+  const result: T_UserRecord[] = lines.slice(1).map((line) => {
+    const values = line.split(",");
+    const obj: T_UserRecord = {
+      '"Date"': "",
+      '"Niveau"': "",
+      '"Allonge"': "",
+      '"Assis"': "",
+      '"SessionID"': "",
+      '"formattedDate"': "",
+    };
+    headers.forEach((header, index) => {
+      obj[header] = values[index];
+    });
+    return obj;
+  });
+  const parsedAndConvertedData = [];
+  for (let index = 0; index < result.length; index++) {
+    const element = transformObjectUP(result[index]);
+    element !== undefined && parsedAndConvertedData.push(element);
   }
-  return result;
+  return parsedAndConvertedData;
 };
 
 function transformObjectDOWN(input: T_ParsedUserRecord): string {

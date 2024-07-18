@@ -1,12 +1,9 @@
 import { T_ParsedUserRecord } from "../../types/UserRecord";
 
-export const checkIfIncrementable = (
-  session: T_ParsedUserRecord,
-  ifistrue: boolean
-) => {
-  if (ifistrue) {
-    return 1;
-  } else {
-    return 0;
-  }
+export const checkIfIncrementable = (session: T_ParsedUserRecord) => {
+  //2 TRUE TRUE
+  //1 TRUE TRUE
+  //1 TRUE FALSE
+  //1 FALSE TRUE
+  return 1;
 };

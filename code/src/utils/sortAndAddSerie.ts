@@ -2,7 +2,6 @@ import { T_ParsedUserRecord } from "../types/UserRecord";
 import { mainLoop } from "./filters/mainLoop";
 
 export const sortAndAddSerie = (data: T_ParsedUserRecord[]) => {
-  // const uniqueSessionIDs = [...new Set(data.map((item) => item.sessionID))];
   const sessionsByID = new Map<string, T_ParsedUserRecord[]>();
   data.forEach((session) => {
     if (!sessionsByID.has(session.sessionID)) {
