@@ -8,10 +8,11 @@ export type T_UserRecord = {
 };
 
 export type T_ParsedUserRecord = {
-  date: string;
+  date: number;
   niveau: number;
   allonge: boolean;
   assis: boolean;
   sessionID: string;
   formattedDate: string;
+  series: number;
 };

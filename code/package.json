@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "pkg": "pkg -t node16-linux-x64,node16-macos-x64,node16-win-x64 .",
-    "start:dev": "npx ts-node ./src/index.ts ../Enregistrement.csv",
+    "start:dev": "npx ts-node ./src/index.ts ../smallerEnregistrement.csv",
     "start:prod": "npm run build && npm run pkg && cd ../ && sh index.sh"
   },
   "bin": "dist/index.js",
