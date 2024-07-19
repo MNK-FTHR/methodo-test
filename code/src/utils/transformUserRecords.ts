@@ -23,7 +23,7 @@ export function transformObjectUP(input: T_UserRecord): T_ParsedUserRecord {
     sessionID: input['"SessionID"'].replace(/"/g, ""),
     formattedDate:
       input['"formattedDate"'] === ""
-        ? new Date(parseInt("1720701400") * 1000).toLocaleDateString("fr-EU")
+        ? new Date(Number(input['"Date"'].replace(/"/g, ""))*1000).toLocaleDateString("fr-EU")
         : input['"formattedDate"'].replace(/"/g, ""),
     series: 0,
   };
