@@ -6,7 +6,7 @@ export function transformObjectUP(input: T_UserRecord): T_ParsedUserRecord {
       return undefined;
     }
   }
-  return {
+  let newVal = {
     date: Number(input['"Date"'].replace(/"/g, "")),
     niveau:
       input['"Niveau"'] === ""
@@ -16,17 +16,32 @@ export function transformObjectUP(input: T_UserRecord): T_ParsedUserRecord {
       input['"Allonge"'] === ""
         ? false
         : input['"Allonge"'].replace(/"/g, "").toLowerCase() === "true",
+    allongeTime: 0,
     assis:
       input['"Assis"'] === ""
         ? false
         : input['"Assis"'].replace(/"/g, "").toLowerCase() === "true",
+    assisTime: 0,
     sessionID: input['"SessionID"'].replace(/"/g, ""),
     formattedDate:
       input['"formattedDate"'] === ""
-        ? new Date(Number(input['"Date"'].replace(/"/g, ""))*1000).toLocaleDateString("fr-EU")
+        ? new Date(
+            Number(input['"Date"'].replace(/"/g, "")) * 1000
+          ).toLocaleDateString("fr-EU")
         : input['"formattedDate"'].replace(/"/g, ""),
     series: 0,
   };
+  if (newVal.niveau === 2) {
+    newVal.allonge && (newVal.allongeTime = 10);
+    newVal.assis && (newVal.assisTime = 10);
+  }
+  if (newVal.niveau === 1) {
+    newVal.allonge && (newVal.allongeTime = 5);
+    newVal.assis && (newVal.assisTime = 5);
+  }
+  console.log(newVal);
+
+  return newVal;
 }
 
 export const transformUserRecordUP = (data: string): T_ParsedUserRecord[] => {

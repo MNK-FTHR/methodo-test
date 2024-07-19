@@ -11,7 +11,9 @@ export type T_ParsedUserRecord = {
   date: number;
   niveau: number;
   allonge: boolean;
+  allongeTime: number;
   assis: boolean;
+  assisTime: number;
   sessionID: string;
   formattedDate: string;
   series: number;
