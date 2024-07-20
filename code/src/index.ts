@@ -27,6 +27,10 @@ async function readFileAsync(
  */
 (async () => {
   try {
+    if (csvFilePath.split(".").pop() !== "csv") {
+      console.log("Ce n'est pas un fichier .csv");
+      process.exit(1);
+    }
     // read
     const data = await readFileAsync(csvFilePath, "utf8");
 
@@ -35,6 +39,13 @@ async function readFileAsync(
 
     // convert + write
     sortAddSerieAndCreateTheCSV(ReadableCSVContent);
+    console.log(
+      `
+      Script exécuté avec succès ! \n
+      Veullez vérifier output.csv
+       `
+    );
+    process.exit(0);
   } catch (error) {
     console.error("Erreur lors de la lecture du fichier:", error);
     process.exit(1);

@@ -39,8 +39,6 @@ export function transformObjectUP(input: T_UserRecord): T_ParsedUserRecord {
     newVal.allonge && (newVal.allongeTime = 5);
     newVal.assis && (newVal.assisTime = 5);
   }
-  console.log(newVal);
-
   return newVal;
 }
 
