@@ -2,18 +2,26 @@ import { T_ParsedUserRecord } from "../../types/UserRecord";
 
 export const checkIfIncrementable = (sessions: T_ParsedUserRecord[]) => {
   let incrAt: number;
-  let totalAssisTime = sessions.reduce((accumulator, current) => {
-    let output = accumulator + current.allongeTime;
-    return output;
-  }, 0);
-  let totalAllongeTime = sessions.reduce((accumulator, current) => {
-    let output = accumulator + current.allongeTime;
-    if (accumulator + current.allongeTime >= 10) {
-      incrAt = current.date;
-    }
-    return output;
-  }, 0);
-  if (totalAllongeTime >= 10 && totalAssisTime >= 10) {
+  let alreadyIncrementedDateForToday = false;
+  let totalExercicesTime = sessions.reduce(
+    (accumulator, current) => {
+      accumulator.allongeTime += current.allongeTime;
+      accumulator.assisTime += current.assisTime;
+
+      if (accumulator.allongeTime >= 10 && accumulator.assisTime >= 10) {
+        if (!alreadyIncrementedDateForToday) {
+          alreadyIncrementedDateForToday = true;
+          incrAt = current.date;
+        }
+      }
+      return accumulator;
+    },
+    { allongeTime: 0, assisTime: 0 }
+  );
+  if (
+    totalExercicesTime.allongeTime >= 10 &&
+    totalExercicesTime.assisTime >= 10
+  ) {
     return incrAt;
   } else {
     return false;

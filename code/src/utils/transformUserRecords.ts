@@ -29,7 +29,7 @@ export function transformObjectUP(input: T_UserRecord): T_ParsedUserRecord {
             Number(input['"Date"'].replace(/"/g, "")) * 1000
           ).toLocaleDateString("fr-EU")
         : input['"formattedDate"'].replace(/"/g, ""),
-    series: 0,
+    serie: 0,
   };
   if (newVal.niveau === 2) {
     newVal.allonge && (newVal.allongeTime = 10);
@@ -74,14 +74,14 @@ function transformObjectDOWN(input: T_ParsedUserRecord): string {
     input.allonge ? "True" : "False"
   }","${input.assis ? "True" : "False"}","${input.sessionID}","${
     input.formattedDate
-  }","${input.series}"\n`;
+  }","${input.serie}"\n`;
 }
 
 export const transformUserRecordDOWN = (
   input: T_ParsedUserRecord[]
 ): string[] => {
   const result = [
-    `"Date","Niveau","Allonge","Assis","SessionID","formattedDate","Series"\n`,
+    `"Date","Niveau","Allonge","Assis","SessionID","formattedDate","Serie"\n`,
   ];
   for (let index = 0; index < input.length; index++) {
     const element = transformObjectDOWN(input[index]);

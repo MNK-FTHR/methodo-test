@@ -1,5 +1,7 @@
 "Date","Niveau","Allonge","Assis","SessionID","formattedDate"
 "1720605600","2","True","True","testSession1","10/07/2024"
+"1720605605","2","True","True","testSession1","10/07/2024"
+"1720605610","2","True","True","testSession1","10/07/2024"
 "1720692000","1","True","True","testSession1","11/07/2024"
 "1720695600","1","True","True","testSession1","11/07/2024"
 "1720778400","1","False","True","testSession1","12/07/2024"

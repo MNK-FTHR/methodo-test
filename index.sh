@@ -22,12 +22,13 @@ WHITE='\033[1;37m'
 
 defaultCSV='Enregistrement.csv'
 
-show_help() {
+showHelp() {
     echo "Usage: $0 [options] [csv_file]"
     echo
     echo "Options:"
-    echo "  -t, --test1     Run test 1"
+    echo "  -t1, --test1     Run test 1"
     echo "  -t2, --test2    Run test 2"
+    echo "  -t3, --test3    Run test 2"
     echo "  -h, --help      Display this help message"
     echo
     echo "If no options are provided, the script will launch $exe_file with $default_csv or a provided csv_file."
@@ -69,8 +70,12 @@ while [[ $# -gt 0 ]]; do
             ./tests/t2/t2.sh
             shift
             ;;
+        -t3|--test3)
+            ./tests/t3/t3.sh
+            shift
+            ;;
         -h|--help)
-            show_help
+            showHelp
             exit 0
             ;;
         *)
@@ -79,7 +84,7 @@ while [[ $# -gt 0 ]]; do
                 run_exe "$1"
             else
                 echo "Error: File $1 not found"
-                show_help
+                showHelp
                 exit 1
             fi
             shift

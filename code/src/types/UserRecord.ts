@@ -16,5 +16,5 @@ export type T_ParsedUserRecord = {
   assisTime: number;
   sessionID: string;
   formattedDate: string;
-  series: number;
+  serie: number;
 };

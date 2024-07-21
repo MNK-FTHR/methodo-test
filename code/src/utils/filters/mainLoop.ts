@@ -8,7 +8,7 @@ export const mainLoop = (
   sessionID: string
 ) => {
   let groupRecord = groupByDate(sessionArray); //renvoit une Map key: uniqueDate value: T_ParsedUserRecord[]
-  let lastSeries = 0; // se rappelle de la valeur de la série de la session précédente
+  let lastserie = 0; // se rappelle de la valeur de la série de la session précédente
   let life = 2;
   let dayBuffer = []; // stock les deux dernière dates unique de l'utilisateur
   groupRecord.forEach((value, key, map) => {
@@ -25,7 +25,7 @@ export const mainLoop = (
       if (deltaDateChecker(dayBuffer) > 1) {
         // regarde le nombre de jour de différence entre les deux jours du buffer
         life = 0;
-        lastSeries = 0;
+        lastserie = 0;
       }
     }
     if (checkIfIncrementable(value)) {
@@ -34,19 +34,18 @@ export const mainLoop = (
         ({ date }) => date === checkIfIncrementable(value)
       );
       value.map((x: T_ParsedUserRecord, i) => {
-        if (x >= byThisOne) {
-          x.series = lastSeries + 1; //incrémente à partir du moment ou le temps voulu est reached
+        if (x.date >= byThisOne.date) {
+          x.serie = lastserie + 1; //incrémente à partir du moment ou le temps voulu est reached
         } else {
-          x.series = lastSeries; //met la valeur de la dernière série au données d'avant la date
+          x.serie = lastserie; //met la valeur de la dernière série au données d'avant la date
         }
       });
-      lastSeries++; // met à jour la dernière série en mémoire
-      if (lastSeries % 5 === 0 && life < 2) {
+      lastserie++; // met à jour la dernière série en mémoire
+      if (lastserie % 5 === 0 && life < 2) {
         life++; // si la série est modulo 5 et que life est <2, régen
       }
     } else {
       life--; //s'il n'arrive pas à reach le temps de chaque exo, -- et reset série
-      lastSeries = 0;
     }
   });
 };
