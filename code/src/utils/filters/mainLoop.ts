@@ -10,6 +10,7 @@ export const mainLoop = (
   let groupRecord = groupByDate(sessionArray); //renvoit une Map key: uniqueDate value: T_ParsedUserRecord[]
   let lastserie = 0; // se rappelle de la valeur de la série de la session précédente
   let life = 2;
+  let daysWithoutLosingLife = 0;
   let dayBuffer = []; // stock les deux dernière dates unique de l'utilisateur
   groupRecord.forEach((value, key, map) => {
     // pour chaque date unique
@@ -22,10 +23,26 @@ export const mainLoop = (
       // regarde le nombre de jour de différence entre les deux jours du buffer si plus de deux jours sont passés
       // si plus d'un jour est passé, on supprime d'office les vies (forcement minimum 2 donc on set @ 0)
       // si un seul jour est passé, on laisse l'algo décider
-      if (deltaDateChecker(dayBuffer) > 1) {
+      if (deltaDateChecker(dayBuffer) > 3) {
         // regarde le nombre de jour de différence entre les deux jours du buffer
         life = 0;
         lastserie = 0;
+        daysWithoutLosingLife = 0;
+      }
+      if (deltaDateChecker(dayBuffer) == 3) {
+        // regarde le nombre de jour de différence entre les deux jours du buffer
+        if (life > 0) {
+          life--;
+          life--;
+          daysWithoutLosingLife = 0;
+        }
+      }
+      if (deltaDateChecker(dayBuffer) == 2) {
+        // regarde le nombre de jour de différence entre les deux jours du buffer
+        if (life > 0) {
+          life--;
+          daysWithoutLosingLife = 0;
+        }
       }
     }
     if (checkIfIncrementable(value)) {
@@ -41,11 +58,20 @@ export const mainLoop = (
         }
       });
       lastserie++; // met à jour la dernière série en mémoire
-      if (lastserie % 5 === 0 && life < 2) {
+      daysWithoutLosingLife++;
+      if (daysWithoutLosingLife % 5 === 0 && life < 2) {
         life++; // si la série est modulo 5 et que life est <2, régen
       }
     } else {
-      life--; //s'il n'arrive pas à reach le temps de chaque exo, -- et reset série
+      if (life > 0) {
+        life--; //s'il n'arrive pas à reach le temps de chaque exo, --vie
+      } else {
+        lastserie = 0;
+      }
+      daysWithoutLosingLife = 0;
+      value.map((x: T_ParsedUserRecord, i) => {
+        x.serie = lastserie; //met la valeur de la dernière série
+      });
     }
   });
 };

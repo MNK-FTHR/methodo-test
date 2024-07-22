@@ -26,12 +26,14 @@ showHelp() {
     echo "Usage: $0 [options] [csv_file]"
     echo
     echo "Options:"
-    echo "  -t1, --test1     Run test 1"
-    echo "  -t2, --test2    Run test 2"
-    echo "  -t3, --test3    Run test 2"
-    echo "  -h, --help      Display this help message"
+    echo "  -t1, --test1    Test 1: Test de fichier d'entrée"
+    echo "  -t2, --test2    Test 2: Test d'incrémentation de séries"
+    echo "  -t3, --test3    Test 3: Test de non incrémentation le même jour"
+    echo "  -t4, --test4    Test 4: Test de gestion du système de vies"
+    echo "  -t5, --test5    Test 5: Test de gestion du format de données"
+    echo "  -h, --help      Affiche ce message"
     echo
-    echo "If no options are provided, the script will launch $exe_file with $default_csv or a provided csv_file."
+    echo "Si aucunes option n'est fournie, le script lancera $exe_file avec $default_csv"
 }
 
 runScript() {
@@ -74,6 +76,14 @@ while [[ $# -gt 0 ]]; do
             ./tests/t3/t3.sh
             shift
             ;;
+        -t4|--test4)
+            ./tests/t4/t4.sh
+            shift
+            ;;
+        -t5|--test5)
+            ./tests/t5/t5.sh
+            shift
+            ;;
         -h|--help)
             showHelp
             exit 0
@@ -83,7 +93,7 @@ while [[ $# -gt 0 ]]; do
             if [[ -f $1 ]]; then
                 run_exe "$1"
             else
-                echo "Error: File $1 not found"
+                echo "Erreur: Fichier $1 manquant"
                 showHelp
                 exit 1
             fi

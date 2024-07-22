@@ -70,11 +70,15 @@ export const transformUserRecordUP = (data: string): T_ParsedUserRecord[] => {
 };
 
 function transformObjectDOWN(input: T_ParsedUserRecord): string {
-  return `"${input.date}","${input.niveau}","${
-    input.allonge ? "True" : "False"
-  }","${input.assis ? "True" : "False"}","${input.sessionID}","${
-    input.formattedDate
-  }","${input.serie}"\n`;
+  return input.niveau === null
+    ? `"${input.date}",,"${input.allonge ? "True" : "False"}","${
+        input.assis ? "True" : "False"
+      }","${input.sessionID}","${input.formattedDate}","${input.serie}"\n`
+    : `"${input.date}","${input.niveau}","${
+        input.allonge ? "True" : "False"
+      }","${input.assis ? "True" : "False"}","${input.sessionID}","${
+        input.formattedDate
+      }","${input.serie}"\n`;
 }
 
 export const transformUserRecordDOWN = (
