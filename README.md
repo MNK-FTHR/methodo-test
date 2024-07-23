@@ -33,18 +33,19 @@ Le projet est réalisé en Node.JS Typescript sans bibliothèques et dépendance
 Les fichiers Typescript sont transformés en exécutables côté développeur et seulement ces fichiers exécutables sont rendus avec les fichiers bash essentiels.
 Les exécutables sont au nombre de 3, un pour Linux, Windows et Mac afin de couvrir un maximum de machine.
 Ces exécutables sont lancés depuis le fichier index.sh, plusieurs lancements sont possibles:
-    -"sh index.sh": simple lancement du script qui va lire le fichier Enregistrement.csv donnée au préalable dans l'énoncé et sortir un fichier output.csv avec la donnée "série" ajoutée
-    -"sh index.sh MonFichier.csv": lancement du script avec le fichier csv de votre choix (veuillez le mettre à la racine de ce projet afin qu'il soit détectable par le script)
-    -"sh index.sh -t"/"sh index.sh --tests": lancement de tous les tests puis du script avec le fichier Enregistrement.csv
-    -"sh index.sh -t1"/"sh index.sh --test1": lancement d'un test spécifique (va de t1 à t5)
-    -"sh index.sh -h": ouvre la liste des flags possibles
+
+    - "sh index.sh": simple lancement du script qui va lire le fichier Enregistrement.csv donnée au préalable dans l'énoncé et sortir un fichier output.csv avec la donnée "série" ajoutée
+    - "sh index.sh MonFichier.csv": lancement du script avec le fichier csv de votre choix (veuillez le mettre à la racine de ce projet afin qu'il soit détectable par le script)
+    - "sh index.sh -t"/"sh index.sh --tests": lancement de tous les tests puis du script avec le fichier Enregistrement.csv
+    - "sh index.sh -t1"/"sh index.sh --test1": lancement d'un test spécifique (va de t1 à t5)
+    - "sh index.sh -h": ouvre la liste des flags possibles
 
 Le projet a été testé sur mon pc, celui d'un proche ne possédant aucune application ou outil de devs et sur un Mac, cela a fonctionné en suivant les procédures de lancement
 
 ## Procédures de lancement
 
--Lancer gitBash dans le dossier du projet
--Executer la commande "sh index.sh -h" afin de voir toute les possibilités de lancement
+- Lancer gitBash dans le dossier du projet
+- Executer la commande "sh index.sh -h" afin de voir toute les possibilités de lancement
 
 Les commandes possibles pour mon script s'afficheront et vous pourrez utiliser celle qui vous intéresse.
 La description des tests s'affiche lors de leur lancement.
