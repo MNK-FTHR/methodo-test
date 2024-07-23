@@ -22,15 +22,22 @@ WHITE='\033[1;37m'
 
 testPassed() {
 
-    echo -e "${GREEN}$1: OK${NOCOLOR}"
+    echo -e "\n${GREEN}$1: OK${NOCOLOR}\n"
 
 }
 
 testFailed() {
 
-    echo -e "${RED}$1: KO${NOCOLOR}"
+    echo -e "\n${RED}$1: KO${NOCOLOR}\n"
+
+}
+
+testDescription() {
+
+    echo -e "\n${BLUE}$1${NOCOLOR}\n"
 
 }
 
 export -f testPassed
 export -f testFailed
+export -f testDescription

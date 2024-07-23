@@ -26,6 +26,7 @@ showHelp() {
     echo "Usage: $0 [options] [csv_file]"
     echo
     echo "Options:"
+    echo "  -t, --tests     Lance tout les tests puis lance le script avec le fichier $default_csv"
     echo "  -t1, --test1    Test 1: Test de fichier d'entrée"
     echo "  -t2, --test2    Test 2: Test d'incrémentation de séries"
     echo "  -t3, --test3    Test 3: Test de non incrémentation le même jour"
@@ -34,6 +35,7 @@ showHelp() {
     echo "  -h, --help      Affiche ce message"
     echo
     echo "Si aucunes option n'est fournie, le script lancera $exe_file avec $default_csv"
+    echo "Si vous fournissez un fichier.csv en options, il sera lancé avec (sh index.sh MonFichier.csv)"
 }
 
 runScript() {
@@ -57,6 +59,15 @@ runScript() {
 }
 export -f runScript
 
+run_tests() {
+    for dir in tests/*/; do
+        if [[ -f "${dir}$(basename "$dir").sh" ]]; then
+            # Exécuter le script de test
+            bash "${dir}$(basename "$dir").sh"
+        fi
+    done
+}
+
 if [ $# -eq 0 ]; then
     runScript $defaultCSV
     exit 1
@@ -64,6 +75,11 @@ fi
 
 while [[ $# -gt 0 ]]; do
     case $1 in
+        -t|--tests)
+            run_tests
+            runScript $defaultCSV
+            shift
+            ;;
         -t1|--test1)
             ./tests/t1/t1.sh
             shift
@@ -89,9 +105,8 @@ while [[ $# -gt 0 ]]; do
             exit 0
             ;;
         *)
-            # Assume it's a CSV file
             if [[ -f $1 ]]; then
-                run_exe "$1"
+                runScript "$1"
             else
                 echo "Erreur: Fichier $1 manquant"
                 showHelp

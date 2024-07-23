@@ -19,12 +19,6 @@ async function readFileAsync(
   });
 }
 
-/**
- * const r = read();
- * const parsed = parse(r);
- * const csv = convert(parsed);
- * write(csv);
- */
 (async () => {
   try {
     if (csvFilePath.split(".").pop() !== "csv") {
@@ -47,7 +41,7 @@ async function readFileAsync(
     );
     process.exit(0);
   } catch (error) {
-    console.error("Erreur lors de la lecture du fichier:", error);
+    console.error("Erreur lors de l'execution du script:", error);
     process.exit(1);
   }
 })();
